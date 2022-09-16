@@ -24,20 +24,18 @@
 # include <unistd.h>
 #endif /* HAVE_UNISTD_H */
 
-#ifdef HAVE_NANOSLEEP
+#if defined HAVE_WINDOWS_H
+# define milli_sleep(msec) do {\
+  if (msec != 0) {\
+    Sleep(msec);\
+  } } while (0)
+#else
 # include <time.h>
 # define milli_sleep(msec) do {\
   if (msec != 0) {\
     struct timespec nanosleepDelay = { (msec) / 1000, ((msec) % 1000) * 1000000 };\
     nanosleep(&nanosleepDelay, NULL);\
   } } while (0)
-#elif defined HAVE_WINDOWS_H
-# define milli_sleep(msec) do {\
-  if (msec != 0) {\
-    Sleep(msec);\
-  } } while (0)
-#else
-# error "Can't get no sleep! Please report"
 #endif /* HAVE_NANOSLEEP */
 
 #ifdef HAVE_ERR

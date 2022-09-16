@@ -31,8 +31,6 @@ include_directories(${CMAKE_INCLUDE_PATH})
 link_directories(${CMAKE_LIBRARY_PATH})
 include_directories(${USB_INCLUDE_DIR})
 
-add_definitions(-DHAVE_NANOSLEEP)
-
 add_library(dfu SHARED ${SOURCES})
 
 if(MINGW)
