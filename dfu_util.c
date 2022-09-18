@@ -364,7 +364,7 @@ found_dfu:
 				pdfu->product = desc->idProduct;
 				pdfu->bcdDevice = desc->bcdDevice;
 				pdfu->configuration = cfg->bConfigurationValue;
-				pdfu->interface = intf->bInterfaceNumber;
+                pdfu->intf = intf->bInterfaceNumber;
 				pdfu->altsetting = intf->bAlternateSetting;
 				pdfu->devnum = libusb_get_device_address(dev);
 				pdfu->busnum = libusb_get_bus_number(dev);
@@ -457,7 +457,7 @@ void print_dfu_if(dfu_if *dfu_if)
 	       dfu_if->flags & DFU_IFF_DFU ? "DFU" : "Runtime",
 	       dfu_if->vendor, dfu_if->product,
 	       dfu_if->bcdDevice, dfu_if->devnum,
-	       dfu_if->configuration, dfu_if->interface,
+           dfu_if->configuration, dfu_if->intf,
 	       get_path(dfu_if->dev),
 	       dfu_if->altsetting, dfu_if->alt_name,
 	       dfu_if->serial_name);

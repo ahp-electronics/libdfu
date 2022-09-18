@@ -106,7 +106,7 @@ typedef struct dfu_if_t {
     uint16_t product;
     uint16_t bcdDevice;
     uint8_t configuration;
-    uint8_t interface;
+    uint8_t intf;
     uint8_t altsetting;
     uint8_t flags;
     uint8_t bMaxPacketSize0;

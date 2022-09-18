@@ -56,7 +56,7 @@ int dfuload_do_upload(dfu_if *dif, int xfer_size,
 	while (1) {
 		int rc;
 		dfu_progress_bar("Upload", total_bytes, expected_size);
-		rc = dfu_upload(dif->dev_handle, dif->interface,
+        rc = dfu_upload(dif->dev_handle, dif->intf,
 		    xfer_size, transaction++, buf);
 		if (rc < 0) {
 			warnx("\nError during upload (%s)",
@@ -117,7 +117,7 @@ off_t dfuload_do_dnload(dfu_if *dif, int xfer_size, dfu_file *file, int *percent
 		else
 			chunk_size = xfer_size;
 
-		ret = dfu_download(dif->dev_handle, dif->interface,
+        ret = dfu_download(dif->dev_handle, dif->intf,
 		    chunk_size, transaction++, chunk_size ? buf : NULL);
 		if (ret < 0) {
 			warnx("Error during download (%s)",
@@ -153,7 +153,7 @@ off_t dfuload_do_dnload(dfu_if *dif, int xfer_size, dfu_file *file, int *percent
 	}
 
 	/* send one zero sized download request to signalize end */
-	ret = dfu_download(dif->dev_handle, dif->interface,
+    ret = dfu_download(dif->dev_handle, dif->intf,
 	    0, transaction, NULL);
 	if (ret < 0) {
 		errx(EX_IOERR, "Error sending completion packet (%s)",

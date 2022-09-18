@@ -160,7 +160,7 @@ int dfu_get_status(dfu_if *dif, dfu_status *status )
           /* bmRequestType */ LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE,
           /* bRequest      */ DFU_GETSTATUS,
           /* wValue        */ 0,
-          /* wIndex        */ dif->interface,
+          /* wIndex        */ dif->intf,
           /* Data          */ buffer,
           /* wLength       */ 6,
                               dfu_timeout );
@@ -355,7 +355,7 @@ int dfu_abort_to_idle(dfu_if *dif)
 	int ret;
     dfu_status dst;
 
-	ret = dfu_abort(dif->dev_handle, dif->interface);
+    ret = dfu_abort(dif->dev_handle, dif->intf);
 	if (ret < 0) {
 		errx(EX_IOERR, "Error sending dfu abort request");
 		exit(1);
@@ -438,13 +438,13 @@ int dfu_flash(const char *filename, int *progress, int *finished)
     if (ret || !dfu_root->dev_handle)
         errx(EX_IOERR, "Cannot open device: %s", libusb_error_name(ret));
 
-    ret = libusb_claim_interface(dfu_root->dev_handle, dfu_root->interface);
+    ret = libusb_claim_interface(dfu_root->dev_handle, dfu_root->intf);
     if (ret < 0)
     {
         errx(EX_IOERR, "Cannot claim interface - %s", libusb_error_name(ret));
     }
 
-    ret = libusb_set_interface_alt_setting(dfu_root->dev_handle, dfu_root->interface, dfu_root->altsetting);
+    ret = libusb_set_interface_alt_setting(dfu_root->dev_handle, dfu_root->intf, dfu_root->altsetting);
     if (ret < 0)
     {
         errx(EX_IOERR, "Cannot set alternate interface: %s", libusb_error_name(ret));
@@ -466,7 +466,7 @@ status_again:
             fprintf(stderr, "Device still in Runtime Mode!");
             break;
         case DFU_STATE_dfuERROR:
-            if (dfu_clear_status(dfu_root->dev_handle, dfu_root->interface) < 0)
+            if (dfu_clear_status(dfu_root->dev_handle, dfu_root->intf) < 0)
             {
                 fprintf(stderr, "error clear_status");
             }
@@ -474,7 +474,7 @@ status_again:
             break;
         case DFU_STATE_dfuDNLOAD_IDLE:
         case DFU_STATE_dfuUPLOAD_IDLE:
-            if (dfu_abort(dfu_root->dev_handle, dfu_root->interface) < 0)
+            if (dfu_abort(dfu_root->dev_handle, dfu_root->intf) < 0)
             {
                 fprintf(stderr, "can't send DFU_ABORT");
             }
@@ -489,7 +489,7 @@ status_again:
     if (DFU_STATUS_OK != status.bStatus )
     {
         /* Clear our status & try again. */
-        if (dfu_clear_status(dfu_root->dev_handle, dfu_root->interface) < 0)
+        if (dfu_clear_status(dfu_root->dev_handle, dfu_root->intf) < 0)
             fprintf(stderr, "USB communication error");
         if (dfu_get_status(dfu_root, &status) < 0)
             fprintf(stderr, "USB communication error");
