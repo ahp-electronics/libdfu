@@ -29,7 +29,6 @@ extern "C" {
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
-#include <libusb.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -78,6 +77,8 @@ extern "C" {
 #define DFU_GETSTATE    5
 #define DFU_ABORT       6
 
+typedef struct libusb_device_handle libusb_device_handle;
+
 /* DFU interface */
 #define DFU_IFF_DFU             0x0001  /* DFU Mode, (not Runtime) */
 
@@ -111,7 +112,7 @@ typedef struct dfu_if_t {
     uint8_t bMaxPacketSize0;
     char *alt_name;
     char *serial_name;
-    libusb_device *dev;
+    void *dev;
     libusb_device_handle *dev_handle;
     struct dfu_if_t *next;
 } dfu_if;

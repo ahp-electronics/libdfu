@@ -1,9 +1,12 @@
 #ifndef DFU_UTIL_H
 #define DFU_UTIL_H
-#include <libusb.h>
+
 /* USB string descriptor should contain max 126 UTF-16 characters
  * but 254 would even accommodate a UTF-8 encoding + NUL terminator */
 #define MAX_DESC_STR_LEN 254
+
+typedef struct dfu_if_t dfu_if;
+typedef struct libusb_context libusb_context;
 
 enum mode {
 	MODE_NONE,
