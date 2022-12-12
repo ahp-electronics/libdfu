@@ -373,6 +373,15 @@ int dfu_abort_to_idle(dfu_if *dif)
 	return ret;
 }
 
+int dfu_flash_filename(const char *filename, int *progress, int *finished)
+{
+    int err = 0;
+    int fd = open(filename, O_RDONLY);
+    if(fd > -1)
+        err = dfu_flash(fd, progress, finished);
+    close(fd);
+    return err;
+}
 
 int dfu_flash(int fd, int *progress, int *finished)
 {
