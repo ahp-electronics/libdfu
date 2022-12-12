@@ -224,7 +224,46 @@ void dfu_load_file(dfu_file *file, enum suffix_req check_suffix, enum prefix_req
 			printf("Read %lli bytes from stdin\n", (long long) file->size.total);
 		/* Never require suffix when reading from stdin */
 		check_suffix = MAYBE_SUFFIX;
-	} else {
+    } else if (file->fd > -1) {
+        ssize_t read_count;
+        off_t read_total = 0;
+
+        f = file->fd;
+        if (f < 0)
+            err(EX_IOERR, "Could not open file %s for reading", file->name);
+
+        offset = lseek(f, 0, SEEK_END);
+
+        if (offset < 0)
+            err(EX_IOERR, "File size is too big");
+
+        if (lseek(f, 0, SEEK_SET) != 0)
+            err(EX_IOERR, "Could not seek to beginning");
+
+        file->size.total = offset;
+
+        if (file->size.total > SSIZE_MAX) {
+            err(EX_IOERR, "File too large for memory allocation on this platform");
+        }
+        file->firmware = dfu_malloc(file->size.total);
+
+        while (read_total < file->size.total) {
+            off_t to_read = file->size.total - read_total;
+            /* read() limit on Linux, slightly below MAX_INT on Windows */
+            if (to_read > 0x7ffff000)
+                to_read = 0x7ffff000;
+            read_count = read(f, file->firmware + read_total, to_read);
+            if (read_count == 0)
+                break;
+            if (read_count == -1 && errno != EINTR)
+                break;
+            read_total += read_count;
+        }
+        if (read_total != file->size.total) {
+            err(EX_IOERR, "Could only read %lld of %lld bytes from %s",
+                (long long) read_total, (long long) file->size.total, file->name);
+        }
+    } else if (!strcmp(file->name, "")) {
 		ssize_t read_count;
 		off_t read_total = 0;
 
@@ -264,7 +303,7 @@ void dfu_load_file(dfu_file *file, enum suffix_req check_suffix, enum prefix_req
 			    (long long) read_total, (long long) file->size.total, file->name);
 		}
 		close(f);
-	}
+    } else return;
 
 	/* Check for possible DFU file suffix by trying to parse one */
 	{

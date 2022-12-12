@@ -6,6 +6,8 @@
 #include <stdint.h>
 
 typedef struct {
+    /* File descriptor */
+    int fd;
     /* File name */
     char name[128];
     /* Pointer to file loaded into memory */

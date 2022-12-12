@@ -374,7 +374,7 @@ int dfu_abort_to_idle(dfu_if *dif)
 }
 
 
-int dfu_flash(const char *filename, int *progress, int *finished)
+int dfu_flash(int fd, int *progress, int *finished)
 {
     dfu_status status;
     libusb_context *ctx;
@@ -392,7 +392,8 @@ int dfu_flash(const char *filename, int *progress, int *finished)
         fprintf(stderr, "unable to initialize libusb: %s", libusb_error_name(ret));
         return EIO;
     }
-    strcpy(file.name, filename);
+    strcpy(file.name, "");
+    file.fd = fd;
     dfu_load_file(&file, MAYBE_SUFFIX, MAYBE_PREFIX);
 
     if (match_vendor < 0 && file.idVendor != 0xffff)

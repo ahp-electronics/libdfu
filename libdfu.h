@@ -40,7 +40,7 @@ extern "C" {
 #include <limits.h>
 
 
-DLL_EXPORT int dfu_flash(const char *filename, int *progress, int *finished);
+DLL_EXPORT int dfu_flash(int fd, int *progress, int *finished);
 
 #ifdef __cplusplus
 } // extern "C"
