@@ -1,0 +1,3 @@
+usr/include/dfu
+usr/lib/*/libdfu*.so*
+usr/share/cmake-*/Modules/FindDFU.cmake
