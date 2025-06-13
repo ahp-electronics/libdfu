@@ -535,6 +535,6 @@ status_again:
     dfu_root->dev_handle = NULL;
 out:
     libusb_exit(ctx);
-    *finished = 1;
+    *finished = (ret != 0 ? -1 : 1);
     return ret;
 }
