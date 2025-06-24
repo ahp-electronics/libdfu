@@ -385,6 +385,10 @@ int dfu_flash_filename(const char *filename, int *progress, int *finished)
 
 int dfu_flash(int fd, int *progress, int *finished)
 {
+    if(progress == NULL)
+        progress = (int*)malloc(sizeof(int));
+    if(finished == NULL)
+        finished = (int*)malloc(sizeof(int));
     dfu_status status;
     libusb_context *ctx;
     dfu_file file;
