@@ -7,7 +7,6 @@ include(GNUInstallDirs)
 
 find_package(Threads REQUIRED)
 find_package(USB REQUIRED)
-find_package(M REQUIRED)
 
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 set(DFU_VERSION_MAJOR 1)
@@ -39,7 +38,7 @@ else(MINGW)
    set_target_properties(dfu PROPERTIES VERSION ${DFU_VERSION} SOVERSION ${DFU_SOVERSION})
 endif(MINGW)
 
-target_link_libraries(dfu ${CMAKE_THREAD_LIBS_INIT} ${USB_LIBRARIES} ${M_LIB})
+target_link_libraries(dfu ${CMAKE_THREAD_LIBS_INIT} ${USB_LIBRARIES})
 
 install(TARGETS dfu LIBRARY DESTINATION ${LIB_INSTALL_DIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/libdfu.h DESTINATION ${CMAKE_INSTALL_PREFIX}/include/dfu)
