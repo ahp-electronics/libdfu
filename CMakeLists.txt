@@ -28,7 +28,7 @@ set(SOURCES
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_INCLUDE_PATH})
 link_directories(${CMAKE_LIBRARY_PATH})
-include_directories(${USB_INCLUDE_DIR})
+include_directories(${USB1_INCLUDE_DIRS})
 
 add_library(dfu SHARED ${SOURCES})
 
@@ -38,7 +38,7 @@ else(MINGW)
    set_target_properties(dfu PROPERTIES VERSION ${DFU_VERSION} SOVERSION ${DFU_SOVERSION})
 endif(MINGW)
 
-target_link_libraries(dfu ${CMAKE_THREAD_LIBS_INIT} ${USB_LIBRARIES})
+target_link_libraries(dfu ${CMAKE_THREAD_LIBS_INIT} ${USB1_LIBRARIES})
 
 install(TARGETS dfu LIBRARY DESTINATION ${LIB_INSTALL_DIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/libdfu.h DESTINATION ${CMAKE_INSTALL_PREFIX}/include/dfu)
