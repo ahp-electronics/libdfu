@@ -27,8 +27,10 @@ set(SOURCES
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_INCLUDE_PATH})
-link_directories(${CMAKE_LIBRARY_PATH})
 include_directories(${USB1_INCLUDE_DIRS})
+link_directories(${CMAKE_LIBRARY_PATH})
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/brew.sh.cmake ${CMAKE_CURRENT_BINARY_DIR}/brew.sh )
 
 add_library(dfu SHARED ${SOURCES})
 
