@@ -6,7 +6,7 @@ LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/")
 include(GNUInstallDirs)
 
 find_package(Threads REQUIRED)
-find_package(USB REQUIRED)
+find_package(USB1 REQUIRED)
 
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 set(DFU_VERSION_MAJOR 1)
@@ -27,7 +27,7 @@ set(SOURCES
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_INCLUDE_PATH})
-include_directories(${USB1_INCLUDE_DIRS})
+include_directories(${USB1_INCLUDE_DIR})
 link_directories(${CMAKE_LIBRARY_PATH})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/brew.sh.cmake ${CMAKE_CURRENT_BINARY_DIR}/brew.sh )
